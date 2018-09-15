@@ -114,9 +114,8 @@ The structure of the Key in `UpdateInfo` is `field1.<field1-key>.<field2>.<field
 ## Override behavior ?
 Yes, we can override the comparison behavior.
 
-Under the hood, FindDeltaMeta (or Delta which in turn calls FindDeltaMeta) 
-considers primitives to have instances of `Primitive` type class. All that we need to do is create an instance of the same 
-with custom equality operation. It is easy.. take a look at the example.
+Under the hood, `FindDeltaMeta` (or `Delta`) considers primitives/value-classes to have instances of `Primitive` type class. All that we need to do is create an instance of the same 
+with custom equality operation. It is easy and looks like this:
 
 ```scala
 
