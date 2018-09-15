@@ -95,11 +95,10 @@ It is in progress.
       UpdateInfo(inner2.innder2id3, create,, Inner2(xyz, inner2id3)),
    )
 
-```
-
 ## Options ? AnyVal ?
 
 Take a look at FindDeltaMetaSpec test cases that covers most of the scenarios. 
+
 
 
 ## Type safe ?
@@ -108,6 +107,44 @@ Please note that you can call `Delta[A]` to get a type safe delta, that in turn 
 Please note, `UpdateInfo` is just a string representation which I used in README to make it look nice ! 
 Under the hood, `UpateInfo` == `Meta` which is just a `list` of `cats.IoR` if you think about it.
 More on this later.
+
+```scala
+
+scala> import cats.implicits._
+import cats.implicits._
+
+scala> import com.thaj.delta._
+import com.thaj.delta._
+
+scala> case class X(name: String, value: String)
+defined class X
+
+scala> implicit val hasId: HasId[X] = _.name
+hasId: com.thaj.delta.HasId[X] = $$Lambda$3954/16197430@5c5ec7e2
+
+scala> List(X("id", "value"), X("id2", "value2"))
+res6: List[X] = List(X(id,value), X(id2,value2))
+
+scala> List(X("id", "valuechanged"), X("id2", "value2changed"))
+res7: List[X] = List(X(id,valuechanged), X(id2,value2changed))
+
+scala> res6.diffWith(res7)
+res10: List[com.thaj.delta.Delta.DeltaOp[X]] =
+    List(
+      Update(
+        X(id, value),
+        X(id, valuechanged),
+        List(UpdateInfo(value, update, value, valuechanged, List()))
+      ),
+      Update(
+        X(id2, value2),
+        X(id2, value2changed),
+        List(UpdateInfo(value, update, value2, value2changed, List()))
+      )
+    )
+
+
+```
 
 ## Structure of Keys
 
