@@ -50,19 +50,9 @@ object Delta {
 
   private[delta] def asIoR[A](a: List[A], b: List[A])(implicit N: HasId[A]): List[A Ior A] = {
     val left =
-      a.map(
-        aa => b.find(
-          bb =>
-            N.id(bb) === N.id(aa)
-        ) match {
-          case None => Ior.Left(aa)
-          case Some(bb) => Ior.Both(aa, bb)
-        }
-      )
+      a.map(aa => b.find(bb => N.id(bb) === N.id(aa))
+        .fold[Ior[A, A]](Ior.Left(aa))(bb => Ior.Both(aa, bb)))
 
-    val right =
-      b.filterNot(b => a.exists(aa => N.id(aa) === N.id(b))).map(Ior.Right(_))
-
-    left ++ right
+    left ++ b.filterNot(b => a.exists(aa => N.id(aa) === N.id(b))).map(Ior.Right(_))
   }
 }
