@@ -158,19 +158,31 @@ Under the hood, `FindDeltaMeta` (or `Delta`) considers primitives/value-classes 
 with custom equality operation. It is easy and looks like this:
 
 ```scala
+scala>  case class Yaml(x: String) extends AnyVal
+defined class Yaml
 
-   case class Yaml(x: String) extends AnyVal
-   case class Outer(yaml: Yaml)
-  
-   val outer1 = Outer(Yaml("input"))
-   val outer2 = Outer(Yaml("inputjunk"))
-  
-   FindDeltaMeta[Outer].apply(outer1, outer2) // returns non-empty updates.
-  
-   implicit val primitiveYaml: Primitive[Yaml] =
-     Primitive.fromEquality( (a, b) => a.replace("junk", "") === b.replace("junk", "")_)
-  
-   FindDeltaMeta[Outer].apply(outer1, outer2) // returns empty
+scala>  case class Outer(yaml: Yaml)
+defined class Outer
+
+scala>  val outer1 = Outer(Yaml("input"))
+outer1: Outer = Outer(Yaml(input))
+
+scala>  val outer2 = Outer(Yaml("inputjunk"))
+outer2: Outer = Outer(Yaml(inputjunk))
+
+scala>    FindDeltaMeta[Outer].apply(outer1, outer2) // returns non-empty updates.
+res11: com.thaj.delta.DeltaMeta.Meta = List(UpdateInfo(yaml,update,input,inputjunk,List()))
+
+// overriding it now:
+
+scala> implicit val primitive: Primitive[Yaml] = 
+ Primitive.fromEquality(
+  (a, b) => a.x.replace("junk", "") === b.x.replace("junk", "")
+ )
+primitive: com.thaj.delta.Primitive[Yaml] = com.thaj.delta.Primitive$$anon$2@7c2c4cd
+
+scala> FindDeltaMeta[Outer].apply(outer1, outer2)
+res18: com.thaj.delta.DeltaMeta.Meta = List()
 
 ```
  
