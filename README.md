@@ -7,7 +7,7 @@ A FP solution to find delta in Scala.
 The documentation isn't complete. 
 It is in progress.
 
-## Find the fields that are updated
+## Find updated fields
 
 ```scala
 
@@ -32,12 +32,12 @@ It is in progress.
      
     List(
       UpdateInfo(inner2.inner2id.something, update, abc, def),
-      UpdateInfo(inner2.inner2id.inner3.inner3id.field, update, kkk, bbb ),
+      UpdateInfo(inner2.inner2id.inner3.inner3id.field, update, kkk, bbb),
     )
   
 ```
 
-## Finding the fields that are deleted/created.
+## Find deleted/created fields.
 
 ```scala
 
@@ -66,7 +66,7 @@ It is in progress.
 
 ```
 
-## What if there is list?
+## list?
 
 ```scala
 
@@ -147,9 +147,11 @@ res10: List[com.thaj.delta.Delta.DeltaOp[X]] =
 
 ```
 
-## Structure of Keys
+## key structure
 
-The structure of the Key in `UpdateInfo` is `field1.<field1-key>.<field2>.<field2-key>.field3` where `field2` is a member in  `field1` and `field3` is a member of `field2`.
+`field1.<field1-key>.<field2>.<field2-key>.field3` 
+
+ where `field2` is a member in  `field1` and `field3` is a member of `field2`.
 
 ## Override behavior ?
 Yes, we can override the comparison behavior.
