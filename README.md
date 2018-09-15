@@ -170,7 +170,7 @@ outer1: Outer = Outer(Yaml(input))
 scala>  val outer2 = Outer(Yaml("inputjunk"))
 outer2: Outer = Outer(Yaml(inputjunk))
 
-scala>    FindDeltaMeta[Outer].apply(outer1, outer2) // returns non-empty updates.
+scala> FindDeltaMeta[Outer].apply(outer1, outer2) // returns non-empty updates.
 res11: com.thaj.delta.DeltaMeta.Meta = List(UpdateInfo(yaml,update,input,inputjunk,List()))
 
 // overriding it now:
