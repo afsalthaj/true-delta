@@ -175,10 +175,9 @@ res11: com.thaj.delta.DeltaMeta.Meta = List(UpdateInfo(yaml,update,input,inputju
 
 // overriding it now:
 
-scala> implicit val primitive: Primitive[Yaml] = 
- Primitive.fromEquality(
+scala> implicit val primitive: Primitive[Yaml] = Primitive.fromEquality(
   (a, b) => a.x.replace("junk", "") === b.x.replace("junk", "")
- )
+)
 primitive: com.thaj.delta.Primitive[Yaml] = com.thaj.delta.Primitive$$anon$2@7c2c4cd
 
 scala> FindDeltaMeta[Outer].apply(outer1, outer2)
