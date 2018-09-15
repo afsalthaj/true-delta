@@ -4,6 +4,8 @@ A FP solution to find delta in Scala.
 
 ## Usage
 
+The documentation isn't complete. 
+It is in progress.
 
 ## Find the fields that are updated
 
