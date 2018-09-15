@@ -1,6 +1,6 @@
 # true-delta
 
-A true delta library in scala.
+A FP solution to find delta in Scala.
 
 ## Usage
 
