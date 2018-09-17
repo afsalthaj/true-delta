@@ -164,9 +164,9 @@ trait LowPriorityInstances4 extends LowPriorityInstances5 {
           .map(t => Meta(HasId[A].id(t), Ior.Left(t.toString), Nil).prependToKey(witness.value.name))
 
       val compareResourcesWithSameName =
-        leftList.zip(toBeComparedOnRight).map {
+        leftList.sortBy(a => HasName[A].name(a)).zip(toBeComparedOnRight.sortBy(a => HasName[A].name(a))).map {
           case (aa, bb) =>
-            E.value.apply(eachH.to(aa), eachH.to(bb)).prependToKey(HasId[A].id(aa))
+            E.value.apply(eachH.to(aa), eachH.to(bb)).prependToKey(HasName[A].name(aa))
         }
 
       deletedData.fold(Nil)(_ ++ _) ++
